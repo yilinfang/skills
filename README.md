@@ -1,6 +1,6 @@
 # skills
 
-personal skills
+A collection of skills created by me or collected from the internet.
 
 ## Installation
 
