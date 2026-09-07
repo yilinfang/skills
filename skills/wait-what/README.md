@@ -1,6 +1,6 @@
 # wait-what
 
-Stop. That last message did not land: re-pitch it
+Stop. That last message did not land: re-pitch it.
 
 ## Source
 
