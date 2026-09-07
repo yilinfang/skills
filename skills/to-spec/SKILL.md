@@ -1,26 +1,28 @@
 ---
 name: to-spec
-description: Synthesize the current conversation into a spec at .specs/<feature-slug>.md. No interview; the discussion is already done.
-argument-hint: "[feature name]"
+description: Synthesize the current conversation into a spec at .issues/<slug>/SPEC.md. No interview; the discussion is already done.
+argument-hint: "[issue name]"
 disable-model-invocation: true
 ---
 
 Turn what has already been discussed into a **spec**: a standalone markdown file that a fresh session can read to understand the problem, the solution, and every decision settled so far. Synthesize; the interview already happened. Where the conversation left something open, record it as open rather than deciding it.
 
+An **issue** is one unit of work: a feature, a bug, a diagnosis. Everything for it lives under `.issues/<slug>/`.
+
 Arguments: $ARGUMENTS
 
 ## Process
 
-1. **Gather.** Work from the conversation. If the argument is a bare name, use it as the feature slug; otherwise derive a kebab-case slug and confirm it with the user.
+1. **Gather.** Work from the conversation. If the argument is a bare name, use it as the issue slug; otherwise derive a kebab-case slug and confirm it with the user.
 2. **Explore the codebase** if you have not already. Use the project's existing names and conventions.
-3. **Write** to `.specs/<feature-slug>.md` using the template below. Name things by responsibility, not file path; paths go stale. Inline a snippet only when it encodes a decision more precisely than prose (schema, type shape, state machine). Then tell the user:
+3. **Write** to `.issues/<slug>/SPEC.md` using the template below. Name things by responsibility, not file path; paths go stale. Inline a snippet only when it encodes a decision more precisely than prose (schema, type shape, state machine). Then tell the user:
 
-> To split this into tickets, run `/to-tickets .specs/<feature-slug>.md`.
+> If one session can finish this, implement it now from the spec. Otherwise run `/to-tickets <slug>` to split it.
 
 ## Template
 
 ```markdown
-# <Feature title>
+# <Issue title>
 
 ## Problem
 

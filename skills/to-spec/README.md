@@ -1,6 +1,6 @@
 # to-spec
 
-Synthesize the current conversation into a spec at .specs/<feature-slug>.md. No interview; the discussion is already done.
+Synthesize the current conversation into a spec at .issues/<slug>/SPEC.md. No interview; the discussion is already done.
 
 ## Source
 

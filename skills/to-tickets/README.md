@@ -1,6 +1,6 @@
 # to-tickets
 
-Split a plan, spec, or conversation into self-contained tracer-bullet tickets under .tickets/<feature-slug>/.
+Split a plan, spec, or conversation into self-contained tracer-bullet tickets under .issues/<slug>/.
 
 ## Source
 
