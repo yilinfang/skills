@@ -13,9 +13,14 @@ Arguments: $ARGUMENTS
 
 ## Process
 
-1. **Gather.** Work from the conversation. If `/to-spec` wrote `.issues/<slug>/SPEC.md` this session, reuse its slug; the spec is the source and is already in context. If the argument is another file path, read it in full; it is the source. If the argument is a bare name, use it as the slug; otherwise derive a kebab-case slug and confirm it with the user. The index points at the source, and its Decisions hold only the settled implementation decisions; the problem and the stories stay in the source.
-2. **Explore the codebase** if you have not already. Use the project's existing names and conventions. Look for prefactoring that would make the change easy.
-3. **Draft slices.** Each ticket cuts a narrow but complete path through every layer (schema, API, UI, tests), is demoable on its own, fits one session and one reviewable diff, and carries the background it needs. Prefactoring goes first. Give each ticket its blockers. The one exception is a wide mechanical refactor (a rename across the codebase): sequence it as expand, migrate in batches, contract. A shape that more than one ticket consumes (schema, type, state machine) is a contract: it lives once in the index, and tickets point at it. A large issue groups its tickets by milestone, each milestone demoable on its own.
+1. **Gather.** Find the source. If `/to-spec` wrote a spec this session, it is the source and its slug is the slug. Else if the argument is a file path, read it in full; it is the source. Else the conversation is the source; a bare-name argument is the slug, otherwise derive a kebab-case slug and confirm it with the user.
+2. **Explore the codebase** until every module a ticket names is a real name in the project. Use the project's existing names and conventions. Look for prefactoring that would make the change easy.
+3. **Draft slices.** Each ticket is a tracer bullet with its blockers:
+   - A narrow but complete path through every layer (schema, API, UI, tests), demoable on its own, fitting one session and one reviewable diff, carrying the background it needs.
+   - Prefactoring goes first.
+   - The exception to vertical slicing is a wide mechanical refactor (a rename across the codebase): sequence it as expand, migrate in batches, contract.
+   - A shape that more than one ticket consumes (schema, type, state machine) is a **contract**: it lives once in the index, and tickets point at it.
+   - A large issue groups its tickets by milestone, each milestone demoable on its own.
 4. **Confirm.** Present a numbered list (title, blocked by, what it delivers) and ask whether the granularity and blockers are right. Iterate until the user approves.
 5. **Write** to `.issues/<slug>/` using the templates below. Name things by responsibility, not file path; paths go stale. Inline a snippet only when it encodes a decision more precisely than prose and only one ticket consumes it. Then tell the user:
 
@@ -28,13 +33,17 @@ Arguments: $ARGUMENTS
 ```markdown
 # <Issue title>
 
-One line describing the issue.
+<One line describing the issue.>
 
 **Spec:** [SPEC.md](SPEC.md) when it sits beside this file, else the path to the plan this was split from, else None
 
+## Problem
+
+<when Spec is None: the problem and the intended outcome from the user's perspective, a few sentences; omit the section when a spec holds it>
+
 ## Decisions
 
-- <every settled implementation decision, one per line>
+- <when SPEC.md sits beside this file: only decisions made while splitting, the spec holds the rest; otherwise every settled implementation decision, one per line>
 
 ## Contracts
 
@@ -58,15 +67,17 @@ For a large issue, one table per milestone, under a `## Milestone: <name>` headi
 
 ## Context
 
-Read the index first: Decisions, Contracts, the sibling tickets that bound this one, and the spec it links when present. This section carries only what is specific to this ticket, as few sentences as a fresh session needs.
+Read the index first: Problem, Decisions, Contracts, the tickets that block this one and the ones it blocks, and the spec it links when present.
+
+<Only what is specific to this ticket, as few sentences as a fresh session needs.>
 
 ## What to build
 
-The end-to-end behaviour this ticket makes work, from the user's perspective.
+<The end-to-end behaviour this ticket makes work, from the user's perspective.>
 
 ## Acceptance criteria
 
-- [ ] Checkable criterion, with how to prove it (a command, a test, a thing to click)
+- [ ] <Checkable criterion, with how to prove it: a command, a test, a thing to click>
 
 When finished: set Status to `done` here, tick this ticket's row in the index, and add a `**Delivered:**` line under Status naming what later tickets consume (the names you introduced, the gotchas you found).
 ```
