@@ -80,4 +80,6 @@ Read the index first: Problem, Decisions, Contracts, the tickets that block this
 - [ ] <Checkable criterion, with how to prove it: a command, a test, a thing to click>
 
 When finished: set Status to `done` here, tick this ticket's row in the index, and add a `**Delivered:**` line under Status naming what later tickets consume (the names you introduced, the gotchas you found).
+
+Work outside this ticket's scope that you discover along the way (a bug, a missing step, a refactor) goes in a `**Found:**` line under Delivered, one per finding, and in your report to the user. This ticket keeps its scope and the index keeps its tickets; the user decides whether a finding becomes a ticket.
 ```
