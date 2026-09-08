@@ -1,19 +1,19 @@
 ---
 name: to-tickets
-description: Split a plan, spec, or conversation into self-contained tracer-bullet tickets under .issues/<slug>/.
-argument-hint: "[path to plan/spec, or issue name]"
+description: Split a plan or conversation into self-contained tracer-bullet tickets under .issues/<slug>/, one per fresh session. Use when the work is too big for one session.
+argument-hint: "[path to plan, or issue name]"
 disable-model-invocation: true
 ---
 
 Split the work into **tickets**: tracer-bullet vertical slices, each a standalone markdown file that a fresh session can pick up with zero chat context, each declaring the tickets that **block** it.
 
-An **issue** is one unit of work: a feature, a bug, a diagnosis. Everything for it lives under `.issues/<slug>/`: the spec when there is one, the ticket index, and the tickets.
+An **issue** is one unit of work: a feature, a bug, a diagnosis. Everything for it lives under `.issues/<slug>/`: the ticket index and the tickets.
 
 Arguments: $ARGUMENTS
 
 ## Process
 
-1. **Gather.** Find the source. If `/to-spec` wrote a spec this session, it is the source and its slug is the slug. Else if the argument is a file path, read it in full; it is the source. Else the conversation is the source; a bare-name argument is the slug, otherwise derive a kebab-case slug and confirm it with the user.
+1. **Gather.** Find the source. If the argument is a file path, read it in full; it is the source. Else the conversation is the source. A bare-name argument is the slug, otherwise derive a kebab-case slug and confirm it with the user.
 2. **Explore the codebase** until every module a ticket names is a real name in the project. Use the project's existing names and conventions. Look for prefactoring that would make the change easy.
 3. **Draft slices.** Each ticket is a tracer bullet with its blockers:
    - A narrow but complete path through every layer (schema, API, UI, tests), demoable on its own, fitting one session and one reviewable diff, carrying the background it needs.
@@ -35,15 +35,15 @@ Arguments: $ARGUMENTS
 
 <One line describing the issue.>
 
-**Spec:** [SPEC.md](SPEC.md) when it sits beside this file, else the path to the plan this was split from, else None
+**Source:** <path to the plan this was split from, or None>
 
 ## Problem
 
-<when Spec is None: the problem and the intended outcome from the user's perspective, a few sentences; omit the section when a spec holds it>
+<The problem and the intended outcome from the user's perspective, a few sentences.>
 
 ## Decisions
 
-- <when SPEC.md sits beside this file: only decisions made while splitting, the spec holds the rest; otherwise every settled implementation decision, one per line>
+- <Every settled implementation decision, one per line.>
 
 ## Contracts
 
@@ -67,7 +67,7 @@ For a large issue, one table per milestone, under a `## Milestone: <name>` headi
 
 ## Context
 
-Read the index first: Problem, Decisions, Contracts, the tickets that block this one and the ones it blocks, and the spec it links when present.
+Read the index first: Problem, Decisions, Contracts, the tickets that block this one and the ones it blocks.
 
 <Only what is specific to this ticket, as few sentences as a fresh session needs.>
 
