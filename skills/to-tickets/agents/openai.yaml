@@ -1,0 +1,6 @@
+interface:
+  display_name: "To Tickets"
+  short_description: "Split large work into tracer tickets"
+  default_prompt: "Use $to-tickets to split this work into self-contained tickets."
+policy:
+  allow_implicit_invocation: false

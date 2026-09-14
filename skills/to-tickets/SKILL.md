@@ -9,7 +9,7 @@ Split the work into **tickets**: tracer-bullet vertical slices, each a standalon
 
 An **issue** is one unit of work: a feature, a bug, a diagnosis. Everything for it lives under `.issues/<slug>/`: the ticket index and the tickets.
 
-Arguments: $ARGUMENTS
+Use the path or issue name supplied with the skill invocation. With no invocation input, use the conversation as the source and derive the issue name from it.
 
 ## Process
 

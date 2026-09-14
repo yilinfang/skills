@@ -37,3 +37,4 @@ Settled design choices, one per line. Reversing one needs the user's approval.
 - Every ticket is a tracer bullet: a narrow path through every layer, demoable alone, one session, one reviewable diff. The one exception is a wide mechanical refactor, sequenced as expand, migrate, contract.
 - A finished ticket writes a `Delivered:` line naming what later tickets consume, and a `Found:` line per out-of-scope finding. The ticket keeps its scope; the user decides whether a finding becomes a ticket.
 - Tickets name things by responsibility, not file path, because paths go stale.
+- The skill is explicit-only in Claude Code and Codex. Invocation input is described without a product-specific argument variable.

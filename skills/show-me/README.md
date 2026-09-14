@@ -8,3 +8,7 @@ This skill is from [humanlayer/skills](https://github.com/humanlayer/skills/blob
 
 - Author: humanlayer
 - License: MIT
+
+## Decisions
+
+- The skill is explicit-only in Claude Code and Codex. HTML artifacts use file links and optional environment-supported opening instead of a product-specific shell command.

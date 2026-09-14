@@ -8,3 +8,7 @@ This skill is from [mattpocock/skills](https://github.com/mattpocock/skills/blob
 
 - Author: mattpocock
 - License: MIT
+
+## Decisions
+
+- The skill is explicit-only in Claude Code and Codex because the user chooses when to start a grilling session.

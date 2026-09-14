@@ -1,0 +1,6 @@
+interface:
+  display_name: "ELI5"
+  short_description: "Explain a topic with simple pictures"
+  default_prompt: "Use $eli5 to explain this topic with big pictures and few words."
+policy:
+  allow_implicit_invocation: false

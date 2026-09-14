@@ -8,3 +8,7 @@ This skill is from [anthropics/claude-plugins-community](https://github.com/anth
 
 - Author: Thariq Shihipar
 - License: MIT
+
+## Decisions
+
+- The skill is explicit-only in Claude Code and Codex. Its instructions use invocation input instead of a product-specific argument variable.

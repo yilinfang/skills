@@ -8,4 +8,4 @@ disable-model-invocation: true
 
 Explain like I'm someone who knows nothing about this topic, using a HTML artifact with big pictures and few words.
 
-Topic: $ARGUMENTS
+Use the topic supplied with the skill invocation. If the invocation does not name a topic, use the topic in the current conversation.

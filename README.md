@@ -1,6 +1,6 @@
 # skills
 
-A collection of skills created by me or collected from the internet.
+A collection of skills created by me or collected from the internet. The skills include native Codex metadata and remain compatible with Claude Code.
 
 ## Installation
 
