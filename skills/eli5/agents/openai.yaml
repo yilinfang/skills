@@ -1,6 +1,5 @@
 interface:
-  display_name: "ELI5"
-  short_description: "Explain a topic with simple pictures"
-  default_prompt: "Use $eli5 to explain this topic with big pictures and few words."
+  display_name: "eli5"
+  short_description: "Explain a topic like I'm a 5 year old."
 policy:
   allow_implicit_invocation: false

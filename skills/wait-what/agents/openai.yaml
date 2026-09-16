@@ -1,6 +1,5 @@
 interface:
-  display_name: "Wait, What?"
-  short_description: "Re-explain the last message simply"
-  default_prompt: "Use $wait-what to re-explain the last message in simple terms."
+  display_name: "Wait What"
+  short_description: "Re-pitch that: simpler, with the context I'm missing"
 policy:
   allow_implicit_invocation: false

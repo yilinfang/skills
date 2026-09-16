@@ -9,7 +9,3 @@ This skill is from [mattpocock/skills](https://github.com/mattpocock/skills/tree
 
 - Author: mattpocock
 - License: MIT
-
-## Decisions
-
-- The skill supports automatic invocation in Claude Code and Codex. Its mechanics reference documents the invocation controls for both products.

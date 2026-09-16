@@ -1,6 +1,5 @@
 interface:
   display_name: "Handoff"
-  short_description: "Prepare context for the next agent"
-  default_prompt: "Use $handoff to prepare this work for a new agent session."
+  short_description: "Compact a conversation into a handoff"
 policy:
   allow_implicit_invocation: false

@@ -8,7 +8,3 @@ This skill is from [mattpocock/skills](https://github.com/mattpocock/skills/blob
 
 - Author: mattpocock
 - License: MIT
-
-## Decisions
-
-- The skill is explicit-only in Claude Code and Codex. It names suggested skills with portable `$skill-name` syntax.

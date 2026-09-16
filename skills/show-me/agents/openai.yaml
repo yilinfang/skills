@@ -1,6 +1,5 @@
 interface:
   display_name: "Show Me"
-  short_description: "Explain the current topic visually"
-  default_prompt: "Use $show-me to explain the current topic with a focused visual."
+  short_description: "Explain the current topic visually."
 policy:
   allow_implicit_invocation: false

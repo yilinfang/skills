@@ -1,85 +1,105 @@
 ---
 name: to-tickets
-description: Split a plan or conversation into self-contained tracer-bullet tickets under .issues/<slug>/, one per fresh session. Use when the work is too big for one session.
-argument-hint: "[path to plan, or issue name]"
+description: Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker (edges as text in one file per ticket locally, or native blocking links on a real tracker).
 disable-model-invocation: true
 ---
 
-Split the work into **tickets**: tracer-bullet vertical slices, each a standalone markdown file that a fresh session can pick up with zero chat context, each declaring the tickets that **block** it.
+# To Tickets
 
-An **issue** is one unit of work: a feature, a bug, a diagnosis. Everything for it lives under `.issues/<slug>/`: the ticket index and the tickets.
+Break a plan, spec, or conversation into a set of **tickets**: tracer-bullet vertical slices, each declaring the tickets that **block** it.
 
-Use the path or issue name supplied with the skill invocation. With no invocation input, use the conversation as the source and derive the issue name from it.
+The issue tracker and triage label vocabulary should have been provided to you. If not, tell the user to run `/setup-matt-pocock-skills`.
 
 ## Process
 
-1. **Gather.** Find the source. If the argument is a file path, read it in full; it is the source. Else the conversation is the source. A bare-name argument is the slug, otherwise derive a kebab-case slug and confirm it with the user.
-2. **Explore the codebase** until every module a ticket names is a real name in the project. Use the project's existing names and conventions. Look for prefactoring that would make the change easy.
-3. **Draft slices.** Each ticket is a tracer bullet with its blockers:
-   - A narrow but complete path through every layer (schema, API, UI, tests), demoable on its own, fitting one session and one reviewable diff, carrying the background it needs.
-   - Prefactoring goes first.
-   - The exception to vertical slicing is a wide mechanical refactor (a rename across the codebase): sequence it as expand, migrate in batches, contract.
-   - A shape that more than one ticket consumes (schema, type, state machine) is a **contract**: it lives once in the index, and tickets point at it.
-   - A large issue groups its tickets by milestone, each milestone demoable on its own.
-4. **Confirm.** Present a numbered list (title, blocked by, what it delivers) and ask whether the granularity and blockers are right. Iterate until the user approves.
-5. **Write** to `.issues/<slug>/` using the templates below. Name things by responsibility, not file path; paths go stale. Inline a snippet only when it encodes a decision more precisely than prose and only one ticket consumes it. Then tell the user:
+### 1. Gather context
 
-> Open a new session and say: solve ticket `.issues/<slug>/01-<slug>.md`. When it finishes it marks the ticket done in the index and records what it delivered. Pick the next ticket whose blockers are all done.
+Work from whatever is already in the conversation context. If the user passes a reference (a spec path, an issue number or URL) as an argument, fetch it and read its full body and comments.
 
-## Templates
+### 2. Explore the codebase (optional)
 
-`README.md`, the index:
+If you have not already explored the codebase, do so to understand the current state of the code. Ticket titles and descriptions should use the project's domain glossary vocabulary, and respect ADRs in the area you're touching.
 
-```markdown
-# <Issue title>
+Look for opportunities to prefactor the code to make the implementation easier. "Make the change easy, then make the easy change."
 
-<One line describing the issue.>
+### 3. Draft vertical slices
 
-**Source:** <path to the plan this was split from, or None>
+Break the work into **tracer bullet** tickets.
 
-## Problem
+<vertical-slice-rules>
 
-<The problem and the intended outcome from the user's perspective, a few sentences.>
+- Each slice cuts a narrow but COMPLETE path through every layer (schema, API, UI, tests): vertical, NOT a horizontal slice of one layer
+- A completed slice is demoable or verifiable on its own
+- Each slice is sized to fit in a single fresh context window
+- Any prefactoring should be done first
 
-## Decisions
+</vertical-slice-rules>
 
-- <Every settled implementation decision, one per line.>
+Give each ticket its **blocking edges**: the other tickets that must complete before it can start. A ticket with no blockers can start immediately.
 
-## Contracts
+**Wide refactors are the exception to vertical slicing.** A **wide refactor** is one mechanical change (rename a column, retype a shared symbol) whose **blast radius** fans across the whole codebase, so a single edit breaks thousands of call sites at once and no vertical slice can land green. Don't force it into a tracer bullet; sequence it as **expand–contract**. First expand: add the new form beside the old so nothing breaks. Then migrate the call sites over in batches sized by blast radius (per package, per directory), each batch its own ticket blocked by the expand, keeping CI green batch to batch because the old form still exists. Finally contract: delete the old form once no caller remains, in a ticket blocked by every migrate batch. When even the batches can't stay green alone, keep the sequence but let them share an integration branch that all block a final integrate-and-verify ticket; green is promised only there.
 
-<shapes more than one ticket consumes: schema, type, state machine; omit the section if none>
+### 4. Quiz the user
 
-| # | Ticket | Blocked by | Done |
-|---|--------|------------|------|
-| 01 | [<title>](01-<slug>.md) | None | [ ] |
-| 02 | [<title>](02-<slug>.md) | 01 | [ ] |
+Present the proposed breakdown as a numbered list. For each ticket, show:
 
-For a large issue, one table per milestone, under a `## Milestone: <name>` heading.
-```
+- **Title**: short descriptive name
+- **Blocked by**: which other tickets (if any) must complete first
+- **What it delivers**: the end-to-end behaviour this ticket makes work
 
-`<NN>-<slug>.md`, one per ticket, numbered from 01 in dependency order:
+Ask the user:
 
-```markdown
+- Does the granularity feel right? (too coarse / too fine)
+- Are the blocking edges correct: does each ticket only depend on tickets that genuinely gate it?
+- Should any tickets be merged or split further?
+
+Iterate until the user approves the breakdown.
+
+### 5. Publish the tickets to the configured tracker
+
+Publish the approved tickets. **How** depends on the tracker `/setup-matt-pocock-skills` configured; the tickets are the same either way, only the shape of the blocking edges changes:
+
+- **Local files** → write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below: one ticket per file, never a single combined file.
+- **A real issue tracker (GitHub, Linear, …)** → publish one issue per ticket in dependency order (blockers first) so each ticket's blocking edges can reference real identifiers. Use the platform's native blocking / sub-issue relationship where it has one; otherwise set each ticket's "Blocked by" to the blocking issues. Apply the `ready-for-agent` triage label unless instructed otherwise; the tickets are agent-grabbable by construction.
+
+Work the **frontier**: any ticket whose blockers are all done. For a purely linear chain that means top to bottom.
+
+Do NOT close or modify any parent issue.
+
+<local-ticket-template>
+
 # <NN>: <Ticket title>
 
-**Blocked by:** <NN: title>, or None
-**Status:** todo
+**What to build:** the end-to-end behaviour this ticket makes work, from the user's perspective, not a layer-by-layer implementation list.
 
-## Context
+**Blocked by:** the numbers/titles of the tickets that gate this one, or "None (can start immediately)".
 
-Read the index first: Problem, Decisions, Contracts, the tickets that block this one and the ones it blocks.
+**Status:** ready-for-agent
 
-<Only what is specific to this ticket, as few sentences as a fresh session needs.>
+- [ ] Acceptance criterion 1
+- [ ] Acceptance criterion 2
+
+</local-ticket-template>
+
+<issue-template>
+
+## Parent
+
+A reference to the parent issue on the tracker (if the source was an existing issue, otherwise omit this section).
 
 ## What to build
 
-<The end-to-end behaviour this ticket makes work, from the user's perspective.>
+The end-to-end behaviour this ticket makes work, from the user's perspective, not layer-by-layer implementation.
 
 ## Acceptance criteria
 
-- [ ] <Checkable criterion, with how to prove it: a command, a test, a thing to click>
+- [ ] Criterion 1
+- [ ] Criterion 2
 
-When finished: set Status to `done` here, tick this ticket's row in the index, and add a `**Delivered:**` line under Status naming what later tickets consume (the names you introduced, the gotchas you found).
+## Blocked by
 
-Work outside this ticket's scope that you discover along the way (a bug, a missing step, a refactor) goes in a `**Found:**` line under Delivered, one per finding, and in your report to the user. This ticket keeps its scope and the index keeps its tickets; the user decides whether a finding becomes a ticket.
-```
+- A reference to each blocking ticket, or "None (can start immediately)".
+
+</issue-template>
+
+In either form, avoid specific file paths or code snippets: they go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.
