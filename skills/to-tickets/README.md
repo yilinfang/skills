@@ -1,6 +1,6 @@
 # to-tickets
 
-Split a plan or conversation into self-contained tracer-bullet tickets under .issues/<slug>/, one per fresh session. Use when the work is too big for one session.
+Split a plan or conversation into self-contained tracer-bullet tickets under .scratch/<feature-slug>/issues/, one per fresh session. Use when the work is too big for one session.
 
 ## Source
 
