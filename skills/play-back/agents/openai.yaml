@@ -1,0 +1,5 @@
+interface:
+  display_name: "Play Back"
+  short_description: "Restate my goals and the problem I'm trying to solve"
+policy:
+  allow_implicit_invocation: false
