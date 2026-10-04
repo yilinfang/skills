@@ -14,6 +14,17 @@ or
 bunx skills@latest add yilinfang/skills
 ```
 
+## Local testing
+
+To test changes without pushing, install from a local clone:
+
+```
+cd /path/to/skills
+bunx skills@latest add .
+```
+
+Re-run after each change. To test a single skill, pass its path, e.g. `bunx skills@latest add ./in-progress/to-tickets`.
+
 ## LICENSE
 
 MIT
